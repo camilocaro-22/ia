@@ -1,7 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 import pandas as pd
 import joblib
-import uvicorn
 import tempfile
 from metadata_extractor import extract_metadata
 
@@ -18,7 +17,7 @@ FEATURE_COLUMNS = [
     "MajorOSVersion",
     "ExportRVA",
     "ExportSize",
-    "IatRVA",
+    "IatVRA",  # ← COHERENTE CON EL MODELO
     "MajorLinkerVersion",
     "MinorLinkerVersion",
     "NumberOfSections",
@@ -27,8 +26,6 @@ FEATURE_COLUMNS = [
     "ResourceSize",
     "BitcoinAddresses"
 ]
-
-# 🔥 ESTA ES LA RUTA QUE DEBES AGREGAR 🔥
 
 
 @app.get("/")
@@ -43,12 +40,15 @@ async def predict(file: UploadFile = File(...)):
             tmp.write(await file.read())
             tmp_path = tmp.name
 
+        # Extract metadata
         data = extract_metadata(tmp_path)
         if data is None:
             return {"error": "No se pudieron extraer metadatos del archivo."}
 
+        # Build DataFrame
         df = pd.DataFrame([data], columns=FEATURE_COLUMNS)
 
+        # Predict
         pred = model.predict(df)[0]
         label = "benign" if pred == 1 else "ransomware"
 

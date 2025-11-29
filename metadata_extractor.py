@@ -6,7 +6,7 @@ def extract_metadata(file_path):
     try:
         pe = pefile.PE(file_path)
 
-        # Extract basic PE header fields
+        # Basic PE header fields
         Machine = pe.FILE_HEADER.Machine
         NumberOfSections = pe.FILE_HEADER.NumberOfSections
         MajorLinkerVersion = pe.OPTIONAL_HEADER.MajorLinkerVersion
@@ -16,7 +16,7 @@ def extract_metadata(file_path):
         SizeOfStackReserve = pe.OPTIONAL_HEADER.SizeOfStackReserve
         DllCharacteristics = pe.OPTIONAL_HEADER.DllCharacteristics
 
-        # Debug info (if exists)
+        # Debug info
         DebugSize = pe.OPTIONAL_HEADER.DATA_DIRECTORY[6].Size
         DebugRVA = pe.OPTIONAL_HEADER.DATA_DIRECTORY[6].VirtualAddress
 
@@ -24,15 +24,16 @@ def extract_metadata(file_path):
         ExportSize = pe.OPTIONAL_HEADER.DATA_DIRECTORY[0].Size
         ExportRVA = pe.OPTIONAL_HEADER.DATA_DIRECTORY[0].VirtualAddress
 
-        # Import Address Table
-        IatRVA = pe.OPTIONAL_HEADER.DATA_DIRECTORY[12].VirtualAddress
+        # Import Address Table (IAT)
+        IatVRA = pe.OPTIONAL_HEADER.DATA_DIRECTORY[12].VirtualAddress
 
         # Resources
         ResourceSize = pe.OPTIONAL_HEADER.DATA_DIRECTORY[2].Size
 
-        # Bitcoin address detection (simple regex on file strings)
+        # Bitcoin address detection
         with open(file_path, "rb") as f:
             content = f.read().decode('latin-1', errors='ignore')
+
         btc_matches = re.findall(r"([13][a-km-zA-HJ-NP-Z1-9]{25,34})", content)
         BitcoinAddresses = len(set(btc_matches))
 
@@ -44,7 +45,7 @@ def extract_metadata(file_path):
             "MajorOSVersion": MajorOSVersion,
             "ExportRVA": ExportRVA,
             "ExportSize": ExportSize,
-            "IatRVA": IatRVA,
+            "IatVRA": IatVRA,   # ← CORRECTO
             "MajorLinkerVersion": MajorLinkerVersion,
             "MinorLinkerVersion": MinorLinkerVersion,
             "NumberOfSections": NumberOfSections,
