@@ -4,4 +4,5 @@ pandas
 joblib
 scikit-learn
 pefile
-imblearn
+imbalanced-learn
+python-multipart
