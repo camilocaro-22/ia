@@ -1,15 +1,19 @@
 # Deteccion_de-Ransomware_en_Archivos_Ejecutables_de_Windows
 
-## Despliegue en Render
+Detección de Ransomware en Archivos Ejecutables de Windows
+Proyecto de análisis y detección de ransomware en archivos ejecutables de Windows mediante técnicas de machine learning y análisis de características PE.
 
-1. Crear nuevo servicio Web Service
-2. Elegir "Deploy from GitHub"
-3. Seleccionar este repositorio
-4. Configurar:
+Descripción
+Sistema desarrollado en Python que permite identificar posibles amenazas de ransomware en archivos ejecutables mediante el análisis de sus características y estructura.
 
-Runtime = Python 3  
-Build Command = pip install -r requirements.txt  
-Start Command = uvicorn main:app --host 0.0.0.0 --port 10000  
+Características principales
+Análisis completo de archivos PE (Portable Executable)
 
-5. Subir model.pkl al repo antes del deploy
+Extracción de características relevantes para detección de malware
+
+Modelo de machine learning entrenado para clasificación
+
+Interfaz de línea de comandos fácil de usar
+
+Procesamiento rápido y eficiente
 
