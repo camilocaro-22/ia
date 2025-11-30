@@ -1,4 +1,4 @@
-# API de Clasificación Ransomware (FastAPI)
+# Deteccion_de-Ransomware_en_Archivos_Ejecutables_de_Windows
 
 ## Despliegue en Render
 
@@ -12,3 +12,4 @@ Build Command = pip install -r requirements.txt
 Start Command = uvicorn main:app --host 0.0.0.0 --port 10000  
 
 5. Subir model.pkl al repo antes del deploy
+
